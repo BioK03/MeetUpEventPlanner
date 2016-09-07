@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+        <title>Meet-up Event !</title>
+        <link rel="icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/png" href="images/favicon.png" />
+
+        <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="lib/materialize/css/materialize.min.css"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+
+        <div class="row fullSizedBlock">
+            <div class="col s12 l8 offset-l2 BGWhite containerLogin">
+                <span id="userControls" class="col s12 right-align"></span>
+                <h1 class="logo col s12"><i class="fa fa-flag" aria-hidden="true"></i> Meet up !</h1>
+                <div class="col s12">
+                    <h3 class="col s12">
+                        Your events :<span class="actionBlock right" onclick="core.dispatcher('addevent');"><i class="material-icons">add_circle</i> Add</span>
+                    </h3>
+                    <div id="personalEvents" class="carousel">
+                        <a class="carousel-item"></a>
+                    </div>
+                    <div class="divider"></div>
+
+                    <h3 class="col s12">Public events :</h3>
+                    <div id="publicEvents" class="carousel">
+                        <a class="carousel-item"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/jquery/jquery.md5.js"></script>
+        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="scripts/core.js"></script>
+        <script type="text/javascript">
+            core.initialization();
+
+            $username = core.getUsername();
+            if($username == "")
+            {
+                window.location.href="index.html";
+            }
+            $("#userControls").html("Hey, "+$username+" (<span class='actionBlock' onclick=\"core.dispatcher('logout');\">Logout</span>)");
+
+            core.loadPublicEvents();
+            core.loadPersonalEvents();
+
+            $(document).ready(function(){
+                $('.carousel').carousel({autoplayHoverPause: true});
+
+                function autoplay() {
+                    $('.carousel').carousel('next');
+                    setTimeout(function(){autoplay();}, 4000);
+                }
+                autoplay();
+            });
+        </script>
+    </body>
+</html>

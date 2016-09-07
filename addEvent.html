@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+        <title>Meet-up Event !</title>
+        <link rel="icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/png" href="images/favicon.png" />
+
+        <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="lib/materialize/css/materialize.min.css"/>
+        <link rel="stylesheet" href="lib/tokenize/jquery.tokenize.css"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+        <div class="row fullSizedBlock">
+            <div class="col s12 l8 offset-l2 BGWhite containerLogin">
+                <span id="userControls" class="col s12 right-align"></span>
+                <h1 class="logo col s12"><i class="fa fa-flag" aria-hidden="true"></i> Meet up !</h1>
+                <div class="col s12">
+                    <span class="actionBlock col left-align"  onclick="core.dispatcher('index');">
+                        <i class="material-icons left" aria-hidden="true">keyboard_arrow_left</i>Back
+                    </span>
+                    <h3 class="col s12">Add an event :</h3>
+                    <form class="col s12" autocomplete="on" onSubmit="core.dispatcher('addeventform');return false;">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <label for="name">Name</label>
+                                <input placeholder="Meeting !" id="name" type="text" class="validate" required autocomplete="off" autofocus>
+                            </div>
+                            <div class="input-field col l6 s12">
+                                <label for="startdate" class="active">Start</label>
+                                <input placeholder="" id="startdate" type="datetime-local" class="validate" required>
+                            </div>
+                            <div class="input-field col l6 s12">
+                                <label for="enddate" class="active">End</label>
+                                <input placeholder="" id="enddate" type="datetime-local" class="validate" required>
+                            </div>
+                            <div class="input-field col l6 s12">
+                                <label for="type">Type</label>
+                                <input list="eventtypes" placeholder="birthday" id="type" type="text" class="validate" required>
+                                <datalist id="eventtypes">
+                                    <option value="birthday">
+                                    <option value="conference">
+                                    <option value="wedding">
+                                </datalist>
+                            </div>
+                            <div class="input-field col l6 s12">
+                                <label for="host" class="active">Host</label>
+                                <input placeholder="" id="host" type="text" class="validate" required>
+                            </div>
+                            <div class="input-field col s12">
+                                <label for="location" class="active">Location</label>
+                                <input placeholder="" id="location" type="text" class="validate" required>
+                            </div>
+                            
+                            <div class="divider"></div>
+                            <div class="input-field col s12">
+                                <label for="msg">Optionnal message to guests</label>
+                                <input placeholder="Hi !" id="msg" type="text" class="validate">
+                            </div>
+                            <div class="switch col s12">
+                                <label>
+                                <input type="checkbox">
+                                <span class="lever"></span>
+                                Public
+                                </label>
+                            </div>
+                            <div class="input-field col s12">
+                                <label for="guests">Guest List</label>
+                                <select id="guests" multiple="multiple" class="tokenize-sample"></select>
+                                <span id="errors"></span>
+                            </div><br/>
+                            
+                            <button class="btn waves-effect waves-light col s12" type="submit">
+                                CREATE EVENT<i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/jquery/jquery.md5.js"></script>
+        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="lib/tokenize/jquery.tokenize.js"></script>
+        <script type="text/javascript" src="scripts/core.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD9XpYOQ1m89nWtZ1ZHdiPns1R6XDtzxE&signed_in=true&libraries=places&callback=initAutocomplete" async defer></script>
+        <script type="text/javascript">
+            core.initialization();
+
+            $username = core.getUsername();
+            if($username == "")
+            {
+                window.location.href="index.html";
+            }
+            $("#userControls").html("Hey, "+$username+" (<span class='actionBlock' onclick=\"core.dispatcher('logout');\">Logout</span>)");
+            $("#host").attr("value", $username.split(" ")[0]);
+
+            $('#guests').tokenize({
+                placeholder:"Guest e-mail",
+                onAddToken: function(value, text, e){verifyEmail(value, text, e);}
+            });
+
+            function initAutocomplete()
+            {
+                new google.maps.places.Autocomplete((document.getElementById('location')),{types: ['geocode']});
+            }
+
+            function verifyEmail($value, $text, $e)
+            {
+                if($value.indexOf("@")<0)
+                {
+                    $('#guests').tokenize().tokenRemove($value);
+                    $("#tokenizeInput").attr("value", $value);
+                    $("#errors").html("'"+$value+"' is probably not a valid e-mail address !");
+                    $("#errors").slideDown();
+                    setTimeout(function(){
+                        $("#errors").slideUp();
+                    }, 1500);
+                }
+            }
+        </script>
+    </body>
+</html>

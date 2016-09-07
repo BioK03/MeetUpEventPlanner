@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+        <title>Meet-up Event !</title>
+        <link rel="icon" href="images/favicon.ico" />
+        <link rel="icon" type="image/png" href="images/favicon.png" />
+
+        <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="lib/materialize/css/materialize.min.css"/>
+
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>            
+        <div class="row fullSizedBlock">
+            <div class="col s12 l6 offset-l3 BGWhite containerLogin Prelative">
+                <i id="cache" class="actionBlock material-icons" onClick="core.dispatcher('cache');">cached</i>
+                <h1 class="logo col s12"><i class="fa fa-flag" aria-hidden="true"></i> Meet up !</h1>
+                <h6 class="center-align"> Plan meetings with friends, colleagues, ...</h6>
+                <ul class="tabs">
+                    <li class="tab col s3"><a class="active" href="#signup">Sign up !</a></li>
+                    <li class="tab col s3"><a href="#signin">Sign in !</a></li>
+                </ul>
+                <span id="fillMessage" class="center-align"></span>
+                <div id="signup" class="col s12">
+                    <form class="col s12" autocomplete="on" onSubmit="core.dispatcher('signup');return false;">
+                        <div class="row">
+                            <div class="input-field col s12 l6">
+                                <label for="firstname">Firstname</label>
+                                <input placeholder="John" id="firstname" type="text" class="validate" pattern=".{3,}" title="3 characters minimum" required autocomplete="fname" autofocus>
+                            </div>
+                            <div class="input-field col s12 l6">
+                                <label for="lastname">Lastname</label>
+                                <input placeholder="Doe" id="lastname" type="text" class="validate" required autocomplete="lname">
+                            </div>
+                            <div class="input-field col s12">
+                                <label for="email">E-Mail</label>
+                                <input placeholder="john.doe@gmail.com" id="email" type="email" class="validate" required autocomplete="email">
+                            </div>
+                            <div class="input-field col s6">
+                                <label for="password">Password</label>
+                                <input placeholder="****" id="password" type="password" class="validate" required>
+                            </div>
+                            <div class="input-field col s6">
+                                <label for="password2">Repeat</label>
+                                <input placeholder="****" id="password2" type="password" class="validate" required>
+                            </div>
+                            <div class="input-field col s12">
+                                <label for="birthdate" class="active">Birthdate (Optionnal)</label>
+                                <input placeholder="01/01/1990" id="birthdate" type="date" class="validate">
+                            </div>
+                            <button class="btn waves-effect waves-light col s12" type="submit">
+                                LET'S SIGN UP !<i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div id="signin" class="col s12">
+                    <form class="col s12" autocomplete="on" onSubmit="core.dispatcher('signin');return false;">
+                        <div class="row">
+                            <div class="input-field col l6 offset-l3 s12">
+                                <label for="email">E-Mail</label>
+                                <input placeholder="john.doe@gmail.com" id="emailS" type="email" class="validate" required autocomplete="email">
+                            </div>
+                            <div class="input-field col l6 offset-l3 s12">
+                                <label for="password">Password</label>
+                                <input placeholder="****" id="passwordS" type="password" class="validate" required>
+                            </div>
+                            <button class="btn waves-effect waves-light col s12" type="submit">
+                                LOGIN<i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="lib/jquery/jquery.md5.js"></script>
+        <script type="text/javascript" src="lib/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="scripts/formValidation.js"></script>
+        <script type="text/javascript" src="scripts/core.js"></script>
+        <script type="text/javascript">
+            core.initialization();
+            if(core.getUsername() !== null && core.getUsername() != "")
+            {
+                window.location.href="dashboard.html";
+            }
+            $(document).ready(function(){
+                $('ul.tabs').tabs({onShow: function(e){
+                    if(e.selector == "#signup")
+                    {
+                        $("#firstname").focus();
+                    }
+                    if(e.selector == "#signin")
+                    {
+                        $("#emailS").focus();
+                    }
+                }});
+            });
+       
+        </script>
+    </body>
+</html>
+
+
